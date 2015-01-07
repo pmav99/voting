@@ -16,6 +16,12 @@
 
   <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 
+  <style>
+    #necessary_rate {
+      font-weight: bold;
+    }
+  </style>
+
 </head>
 <body>
 
@@ -54,21 +60,71 @@
 
   <div class="container">
 
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Απαιτούμενο ποσοστό για αυτοδυναμία
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+
     <!-- My calculations! -->
     <div class="form-group">
       <div class="row">
         <div class="col-md-6">
-          <label for="rate_outside_parliament">Συνολικό ποσοστό κομμάτων εκτός κοινοβουλίου</label>
-          <input class="form-control" id="rate_outside_parliament" type="number" min="0.00" max="30.0" step="0.1" value="10" placeholder="Ποσοστό (%)">
+          <p>
+            Σύμφωνα με τον ισχύοντα εκλογικό νόμο, το ελάχιστο ποσοστό που απαιτείται να
+            συγκεντρώσει κάποιο κομμα για να μπορεί να συγκροτήσει αυτοδύναμη κυβέρνηση εξαρτάται
+            <strong>μόνο</strong> από το συνολικό ποσοστό των κομμάτων που μένουν εκτός βουλής.
+          </p>
+          <p>
+            Συμπληρώστε στη φόρμα που ακολουθεί το συνολικό ποσοστό που εκτιμάτε ότι θα λάβουν
+            τα κόμματα που δεν θα περάσουν το φράγμα του 3% και θα μάθετε το ποσοστό που πρέπει
+            να συγκεντρώσει το πρώτο κόμμα για να σχηματίσει αυτοδύναμη κυβέρνηση!
+          </p>
         </div>
         <div class="col-md-6">
-          <label for="necessary_rate">Απαιτούμενο ποσοστό για αυτοδυναμία</label>
-          <output class="form-control" id="necessary_rate" type="number" >23</output>
+          <div class="row">
+            <label for="rate_outside_parliament">Συνολικό ποσοστό κομμάτων εκτός κοινοβουλίου</label>
+            <input class="form-control" id="rate_outside_parliament" type="number" min="0" max="30" step="1" value="10" placeholder="Ποσοστό (%)">
+          </div>
+          <div class="row">
+            <label for="necessary_rate">Απαιτούμενο ποσοστό για αυτοδυναμία</label>
+            <output class="form-control" id="necessary_rate" type="number" >23</output>
+          </div>
         </div>
       </div>
     </div>
 
-    <div id="rate_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+      <div class="row">
+        <div class="col-md-2"> </div>
+        <div class="col-md-8">
+          <div id="rate_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+        </div>
+        <div class="col-md-2"> </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Κατανομή εδρών
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+        <p>Just some filler text</p>
+      </div>
+    </div>
+  </div>
+</div>
 
     <hr>
 
