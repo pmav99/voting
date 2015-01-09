@@ -225,13 +225,16 @@ function second_distribution(seats, remains) {
 
 
 function calculate_out_of_parliament_percentage() {
+    var total = 0;
     var percentages = [];
     var inputs = $("#myTable > tbody").find('input');
     for (var i = 0; i < inputs.length; i++) {
-        percentages.push(parseFloat(inputs[i].value) || 0);
+        var p = parseFloat(inputs[i].value) || 0;
+        percentages.push(p);
+        if (p > 3) {
+            total += p;
+        }
     }
-
-    var total = sum(percentages);
     var out_of_parliament_percentage = 100 - total;
 
     // Set the out of parliament percentage
