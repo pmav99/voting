@@ -238,8 +238,7 @@ function calculate_out_of_parliament_percentage() {
     var out_of_parliament_percentage = 100 - total;
 
     // Set the out of parliament percentage
-    $('#outOfParliamentPercentage').val(out_of_parliament_percentage);
-
+    $('#outOfParliamentPercentage').val(out_of_parliament_percentage.toFixed(2));
 
     if (total > 100 ) {
         alert("Το συνολικό ποσοστό υπερβαίνει το 100%. Παρακαλώ ελέγξτε τα δεδομένα σας.");
