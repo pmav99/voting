@@ -8,7 +8,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title></title>
+  <title>Εκλογικός νόμος</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -17,12 +17,17 @@
   <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 
   <style>
-    #necessary_rate {
+    output {
       font-weight: bold;
+    }
+
+    .red {
+        color: red;
     }
   </style>
 
 </head>
+
 <body>
 
   <!--[if lt IE 7]>
@@ -42,106 +47,149 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">Project name</a>
+        <a class="navbar-brand" href="#">Εκλογικός νόμος</a>
       </div>
-      <div id="navbar" class="navbar-collapse collapse">
-        <form class="navbar-form navbar-right" role="form">
-          <div class="form-group">
-            <input type="text" placeholder="Email" class="form-control">
-          </div>
-          <div class="form-group">
-            <input type="password" placeholder="Password" class="form-control">
-          </div>
-          <button type="submit" class="btn btn-success">Sign in</button>
-        </form>
-      </div><!--/.navbar-collapse -->
     </div>
   </nav>
 
+  <!-- Container -->
   <div class="container">
 
-<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingOne">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          Απαιτούμενο ποσοστό για αυτοδυναμία
-        </a>
-      </h4>
-    </div>
-    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-      <div class="panel-body">
+    <!-- Tab Panel-->
+    <ul id="myTab" class="nav nav-tabs" role="tablist">
+      <li class="active"> <a href="#oneParty" data-toggle="tab">Αυτοδυναμία</a> </li>
+      <li><a href="#edres" data-toggle="tab">Κατανομή εδρών</a></li>
+    </ul>
+    <!-- Tab Panel-->
 
-    <!-- My calculations! -->
-    <div class="form-group">
-      <div class="row">
-        <div class="col-md-6">
-          <p>
-            Σύμφωνα με τον ισχύοντα εκλογικό νόμο, το ελάχιστο ποσοστό που απαιτείται να
-            συγκεντρώσει κάποιο κομμα για να μπορεί να συγκροτήσει αυτοδύναμη κυβέρνηση εξαρτάται
-            <strong>μόνο</strong> από το συνολικό ποσοστό των κομμάτων που μένουν εκτός βουλής.
-          </p>
-          <p>
-            Συμπληρώστε στη φόρμα που ακολουθεί το συνολικό ποσοστό που εκτιμάτε ότι θα λάβουν
-            τα κόμματα που δεν θα περάσουν το φράγμα του 3% και θα μάθετε το ποσοστό που πρέπει
-            να συγκεντρώσει το πρώτο κόμμα για να σχηματίσει αυτοδύναμη κυβέρνηση!
-          </p>
-        </div>
-        <div class="col-md-6">
-          <div class="row">
-            <label for="rate_outside_parliament">Συνολικό ποσοστό κομμάτων εκτός κοινοβουλίου</label>
-            <input class="form-control" id="rate_outside_parliament" type="number" min="0" max="30" step="1" value="10" placeholder="Ποσοστό (%)">
+    <!-- Tabs Content -->
+    <div id="myTabContent" class="tab-content">
+
+      <!-- Τab Αυτοδυναμίας -->
+      <div class="tab-pane fade " id="oneParty">
+
+        <!-- Εισαγωγή Αυτοδυναμίας -->
+        <div class="row">
+
+          <!--Περιγραφη-->
+          <div class="col-md-6">
+            <p>
+              Σύμφωνα με τον ισχύοντα εκλογικό νόμο, το ελάχιστο ποσοστό που απαιτείται να
+              συγκεντρώσει κάποιο κομμα για να μπορεί να συγκροτήσει αυτοδύναμη κυβέρνηση εξαρτάται
+              <strong>μόνο</strong> από το συνολικό ποσοστό των κομμάτων που μένουν εκτός βουλής.
+            </p>
+            <p>
+              Συμπληρώστε στη φόρμα που ακολουθεί το συνολικό ποσοστό που εκτιμάτε ότι θα λάβουν
+              τα κόμματα που δεν θα περάσουν το φράγμα του 3% και θα μάθετε το ποσοστό που πρέπει
+              να συγκεντρώσει το πρώτο κόμμα προκειμένου να μπορεί να σχηματίσει αυτοδύναμη κυβέρνηση!
+            </p>
           </div>
-          <div class="row">
-            <label for="necessary_rate">Απαιτούμενο ποσοστό για αυτοδυναμία</label>
-            <output class="form-control" id="necessary_rate" type="number" >23</output>
+          <!-- Περιγραφη -->
+
+          <!-- widgets! -->
+          <div class="col-md-6" >
+            <div class="form-group">
+              <label for="rate_outside_parliament">Συνολικό ποσοστό κομμάτων εκτός κοινοβουλίου</label>
+              <input class="form-control" id="rate_outside_parliament" type="number" min="0" max="30" step="0.1" value="10.5" placeholder="Ποσοστό (%)"></input>
+            </div>
+            <div class="form-group">
+              <label for="necessary_rate">Απαιτούμενο ποσοστό για αυτοδυναμία</label>
+              <output class="form-control" id="necessary_rate" type="number" ></output>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
+          <!--widgets! -->
 
-      <div class="row">
-        <div class="col-md-2"> </div>
-        <div class="col-md-8">
-          <div id="rate_chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
         </div>
-        <div class="col-md-2"> </div>
+        <!-- Εισαγωγή Αυτοδυναμίας -->
+
+        <!--Chart Αυτοδυναμίας -->
+        <div class="row">
+          <div class="col-md-2"> </div>
+          <div class="col-md-8">
+            <div id="rate_chart" style="min-width: 210px; height: 400px; margin: 0 auto"></div>
+          </div>
+          <div class="col-md-2"> </div>
+        </div>
+        <!--Chart Αυτοδυναμίας -->
+
       </div>
+      <!-- Τab Αυτοδυναμίας -->
+
+      <!-- Tab Κατανομής Εδρών -->
+      <div class="tab-pane fade in active" id="edres">
+
+        <!-- Εισαγωγή Κατανομή Εδρών -->
+        <div class="row">
+
+          <!--Περιγραφη-->
+          <div class="col-md-4">
+            <p>Κείμενο περιγραφής κατανομής εδρών 1 </p>
+          </div>
+          <div class="col-md-4">
+            <p>Κείμενο περιγραφής κατανομής εδρών 2 </p>
+          </div>
+          <div class="col-md-4">
+            <p>Κείμενο περιγραφής κατανομής εδρών 3 </p>
+          </div>
+          <!-- Περιγραφη -->
+
+          <!-- Πίνακας -->
+          <table id='myTable' class="table table-striped table-condensed">
+            <caption>Κατανομή Εδρών</caption>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Κόμμα</th>
+                <th>(%)</th>
+                <th>Έδρες</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+              <tr class="active">
+                <td></td>
+                <td><label>Εκτός κοινοβουλίου</label></td>
+                <td><output id="outOfParliamentPercentage" type="number" ></output></td>
+                <td>0</td>
+              </tr>
+              <tr class="warning">
+                <td></td>
+                <td>Σύνολο</td>
+                <td><strong><output id="totalPartyPercentages" type="number" ></output>100</td></strong>
+                <td><strong><output id="totalParliamentSeats" type="number" ></output>300</td></strong>
+              </tr>
+            </tfoot>
+          </table>
+          <!-- Πίνακας -->
+
+        </div>
+        <!-- Εισαγωγή Κατανομής Εδρών -->
+
+      </div>
+      <!-- Tab Κατανομής Εδρών -->
 
     </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingTwo">
-      <h4 class="panel-title">
-        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Κατανομή εδρών
-        </a>
-      </h4>
-    </div>
-    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-      <div class="panel-body">
-        <p>Just some filler text</p>
-      </div>
-    </div>
-  </div>
-</div>
+    <!-- Tabs Content -->
 
     <hr>
 
     <footer>
-      <p>&copy; Company 2014</p>
+      <p>&copy; Blackgeorge INC 2015</p>
     </footer>
 
-  </div> <!-- /container -->
+  </div>
+  <!-- /container -->
 
-  <script src="js/vendor/jquery-1.11.1.min.js"></script>
-  <script src="js/vendor/bootstrap.min.js"></script>
-  <script src="http://code.highcharts.com/highcharts.js"></script>
+  <script type="text/javascript" src="js/vendor/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="js/vendor/bootstrap.min.js"></script>
+  <script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
 
-  <script src="js/plugins.js"></script>
-  <script src="js/main.js"></script>
+  <script type="text/javascript" src="js/plugins.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
 
   <script type="text/javascript" src="js/chart.js"> </script>
+  <script type="text/javascript" src="js/table.js"></script>
 
   </body>
 </html>

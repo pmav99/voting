@@ -1,4 +1,3 @@
-
 function create_chart() {
 
     function get_necessary_rates_curve() {
@@ -15,6 +14,10 @@ function create_chart() {
     }
 
     $('#rate_chart').highcharts({
+        //chart: {
+            //renderTo: 'container',
+            //type: 'column',
+        //}
         title: {
             text: 'Απαιτούμενο ποσοστό για αυτοδυναμία',
             x: -20 //center
@@ -117,6 +120,13 @@ $(document).ready( function () {
     // Create and Update chart!
     create_chart();
     $('#rate_outside_parliament').trigger("input");
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        var chart = $('#rate_chart').highcharts();
+        chart.reflow();
+    });
+
+    //$(window).resize();
 
 });
 
