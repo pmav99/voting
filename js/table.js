@@ -275,6 +275,9 @@ $(document).ready( function () {
     initialize_table();
     calculate_out_of_parliament_percentage();
 
+    // bind events to html elements declared in the html file
+    $("#add_row_button").click(add_row);
+
     // Fixes
     fix_android_default_browser();
 });
