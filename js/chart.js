@@ -1,134 +1,109 @@
-function create_chart() {
+// Define Single Party Module
+var SingleParty = {
 
-    function get_necessary_rates_curve() {
-        var factor = 101/250;
-        var rates = [];
-        for (var i = 0; i < 21; i++) {
-            rates[i] = [i, factor * (100 - i)];
-        }
-        return rates;
+  // html elements
+  outside_rate: $('#rate_outside_parliament'),
+  necessary_rate: $('#necessary_rate'),
+
+  // Highcharts help functions
+  format_percentages: function() {
+    return Highcharts.numberFormat(this.y, 1) + '%';
+  },
+
+  // Define Single Party Chart
+  chart: $('#one_party_chart').highcharts({
+    title: {
+      text: 'Απαιτούμενο ποσοστό για αυτοδυναμία',
+      x: -20 //center
+    },
+    subtitle: {
+      text: 'Συναρτήσει του ποσοστού των κομμάτων που μένουν εκτός βουλής',
+      x: -20
+    },
+    xAxis: {
+      title: {
+        text: 'Ποσοστό κομμάτων εκτος βουλής (%)'
+      },
+      labels: {
+        formatter: this.format_percentages,
+      },
+      maxPadding: 0.05,
+      showLastLabel: true,
+      min: 0,
+      max: 20
+    },
+    yAxis: {
+      title: {
+        text: 'Ποσοστό αυτοδυναμίας (%)'
+      },
+      plotLines: [{
+        value: 0,
+        width: 1,
+        color: '#808080'
+      }],
+      labels: {
+        formatter: this.format_percentages,
+      },
+      min: 30,
+      max: 42.5
+    },
+    tooltip: {
+      valueSuffix: ' %',
+      formatter: this.format_percentages,
+    },
+    series:
+      [
+        {
+          data: [],
+        },
+        {
+          data: [],
+        },
+      ],
+  }),
+
+  getCurve: function() {
+    var factor = 101/250;
+    var rates = [];
+    for (var i = 0; i < 21; i++) {
+      rates[i] = [i, factor * (100 - i)];
     }
+    return rates;
+  },
 
-    function format_percentages() {
-        return Highcharts.numberFormat(this.value, 1) + '%';
-    }
+  updateChart: function (x, y) {
+    var series = this.chart.series;
+    var yMin = this.chart.yAxis[0].min;
+    var values = {data: [[x, yMin], [x, y], [0, y]] };
+    series[1].setData(values.data);
+  },
 
-    $('#rate_chart').highcharts({
-        //chart: {
-            //renderTo: 'container',
-            //type: 'column',
-        //}
-        title: {
-            text: 'Απαιτούμενο ποσοστό για αυτοδυναμία',
-            x: -20 //center
-        },
-        subtitle: {
-            text: 'Συναρτήσει του ποσοστού των κομμάτων που μένουν εκτός βουλής',
-            x: -20
-        },
-        xAxis: {
-            title: {
-                text: 'Ποσοστό κομμάτων εκτος βουλής (%)'
-            },
-            labels: {
-                formatter: format_percentages
-            },
-            maxPadding: 0.05,
-            showLastLabel: true,
-            min: 0,
-            max: 20
-        },
-        yAxis: {
-            title: {
-                text: 'Ποσοστό αυτοδυναμίας (%)'
-            },
-            plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#808080'
-            }],
-            labels: {
-                formatter: format_percentages
-            },
-            min: 30,
-            max: 42.5
-        },
-        tooltip: {
-            valueSuffix: ' %',
-            formatter: function () {
-                return Highcharts.numberFormat(this.y, 1) + " %";
-            }
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle',
-            borderWidth: 0
-        },
-        series: [
-            {
-                name: "Καμπύλη",
-                data: get_necessary_rates_curve()
-            },
-            {
-                name: "Custom",
-                data: [[]]
-            }
-        ]
+  createChart: function () {
+    this.chart = this.chart.highcharts();
+    this.chart.series[0].setData(this.getCurve());
+  },
+
+  bindUIActions: function() {
+    this.outside_rate.bind("change", function(e) {
+      var x = parseFloat(SingleParty.outside_rate.val()) || 0;
+      var y = 101/250 * (100 - x);
+      SingleParty.necessary_rate.val(y.toPrecision(3));
+      SingleParty.updateChart(x, y);
     });
-}
+  },
 
-function add_or_update_chart_series(chart, data, index) {
-    var chart_series = chart.series;
-    if (chart_series.length > index) {
-        chart_series[index].setData(data);
-    } else {
-        chart_series.push({
-            name: "Custom",
-            data: data
-        });
-    }
-}
+  init: function() {
+    this.createChart();
+    this.bindUIActions();
+    this.outside_rate.trigger("change");
+  },
 
-function get_necessary_rate(num) {
-    return 101/250 * (100 - num);
-}
+};
 
-function update_chart(x, y) {
-    var chart = $('#rate_chart').highcharts();
-    var min_y = 0;//chart.yAxis.min;
-    var data = [[x, min_y], [x, y], [0, y]];
-    add_or_update_chart_series(chart, data, 1);
-}
 
-function update_output_element(y) {
-    $('#necessary_rate').val(y.toPrecision(3));
-}
 
+
+// Execute when ready!
 $(document).ready( function () {
-
-    // Bind the "input" event of the input elements to update the chart!
-    $('#rate_outside_parliament').bind("input", function (evnt) {
-        // calculate the values!
-        var x = parseFloat($('#rate_outside_parliament').val()) || 0;
-        var y = get_necessary_rate(x);
-        // Time to update!
-        update_chart(x, y);
-        update_output_element(y);
-    });
-
-    // Create and Update chart!
-    create_chart();
-    $('#rate_outside_parliament').trigger("input");
-
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        var chart = $('#rate_chart').highcharts();
-        chart.reflow();
-    });
-
-    //$(window).resize();
-
+  SingleParty.init();
 });
-
-
-
