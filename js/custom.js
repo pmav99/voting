@@ -16,6 +16,10 @@ var Utils = {
     return a - b;
   },
 
+  formatPercentages: function() {
+    return Highcharts.numberFormat(this.y, 1) + '%';
+  },
+
 };
 
 
@@ -376,6 +380,63 @@ var Baseline = {
 
 var Debt = {
 
+  // Debt Chart
+  chart: $('#DebtChart').highcharts({
+    title: {
+      text: 'Πορεία Ελληνικού Χρέους',
+    },
+    subtitle: {
+      text: 'Σύμφωνα με το Δ.Ν.Τ.',
+    },
+    xAxis: {
+      title: {
+        text: 'Έτος'
+      },
+      categories: Baseline.year,
+      //labels: {
+        //formatter: Utils.formatPercentages,
+      //},
+      maxPadding: 0.05,
+      showLastLabel: true,
+    },
+    yAxis: {
+      title: {
+        text: 'Χρέος ως ποσοστό του ΑΕΠ (%)'
+      },
+      plotLines: [{
+        value: 0,
+        width: 1,
+        color: '#808080'
+      }],
+      //labels: {
+        //formatter: Utils.formatPercentages,
+      //},
+      //min: 30,
+      //max: 42.5
+    },
+    legend: {
+      layout: 'horizontal',
+      align: 'center',
+      verticalAlign: 'bottom',
+      borderWidth: 0
+    },
+    tooltip: {
+      valueSuffix: ' %',
+      formatter: Utils.formatPercentages,
+    },
+    series:
+      [
+        {
+          name: "Δ.Ν.Τ. Baseline",
+          data: Baseline.debt,
+        },
+        {
+          name: "Custom",
+          data: [],
+        },
+      ],
+  }),
+
   calculate: function () {
     var inflation = Debt.getColumn(2);
     var realGrowth = Debt.getColumn(3);
@@ -396,6 +457,7 @@ var Debt = {
     var result = Debt.calculate();
     Debt.setColumn(7, result.nominalGrowth, 2);
     Debt.setColumn(8, result.debt, 4);
+    $('#DebtChart').highcharts().series[1].setData(result.debt);
   },
 
   getColumn: function (index) {
@@ -474,10 +536,12 @@ $(document).ready( function () {
   Table.init();
   Debt.init();
 
-  // Resize the chart;
+  // Resize the charts;
   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
       var chart = $('#one_party_chart').highcharts();
       chart.reflow();
+      var debtChart = $('#DebtChart').highcharts();
+      debtChart.reflow();
   });
 });
 
