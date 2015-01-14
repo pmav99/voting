@@ -466,7 +466,7 @@ var Debt = {
     var values = [];
     for (var i = 0; i < tds.length; i++) {
       var element = tds[i].children[0];
-      values[i] = parseFloat(element.value);
+      values[i] = parseFloat(element.value) || 0;
     }
     return values;
   },
