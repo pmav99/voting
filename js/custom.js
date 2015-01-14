@@ -361,8 +361,123 @@ var Table = {
   },
 };
 
+
+var Baseline = {
+  year: [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022],
+  interest: [4.40, 4.60, 2.70, 2.50, 2.70, 3.00, 3.20, 3.20, 3.20, 3.20, 3.50, 3.60, 3.60],
+  inflation: [1.10, 1.00, -0.70, -1.10, -0.40, 0.40, 1.10, 1.30, 1.40, 1.70, 1.70, 1.90, 2.00],
+  realGrowth: [-4.90, -7.10, -6.40, -4.20, 0.60, 2.90, 3.70, 3.50, 3.30, 3.00, 2.60, 2.00, 1.90],
+  SFA: [2.60, 2.70, -32.70, 6.00, -4.50, -2.30, -1.60, -2.80, -2.20, -2.10, -2.60, -1.30, -0.30],
+  balance: [-4.90, -2.40, -1.30, 0.00, 1.50, 3.00, 4.50, 4.50, 4.20, 4.20, 4.20, 4.00, 4.00],
+  nominalGrowth: [-3.80, -6.10, -7.10, -5.30, 0.20, 3.30, 4.80, 4.80, 4.70, 4.70, 4.30, 3.90, 3.90],
+  debt: [ 148.3, 170.2989350372737, 156.86373119836395, 175.78386956528306, 174.16969465423722, 168.36387753520265, 159.69343665680262, 149.95536892158424, 141.40701120064466, 133.08112278802798, 125.26036633327801, 119.59869058833111, 114.95336231906741 ]
+};
+
+
+var Debt = {
+
+  calculate: function () {
+    var inflation = Debt.getColumn(2);
+    var realGrowth = Debt.getColumn(3);
+    var interest = Debt.getColumn(4);
+    var balance = Debt.getColumn(5);
+    var SFA = Debt.getColumn(6);
+    var nominalGrowth = Debt.getColumn(7);
+    var debt = Debt.getColumn(8);
+
+    for (var i = 1; i < inflation.length; i++) {
+      nominalGrowth[i] = inflation[i] + realGrowth[i];
+      debt[i] = debt[i-1] + debt[i-1] * (interest[i] - nominalGrowth[i]) / (100 + nominalGrowth[i]) - balance[i] + SFA[i];
+    }
+    return {nominalGrowth: nominalGrowth, debt:debt};
+  },
+
+  updateTable: function () {
+    var result = Debt.calculate();
+    Debt.setColumn(7, result.nominalGrowth, 2);
+    Debt.setColumn(8, result.debt, 4);
+  },
+
+  getColumn: function (index) {
+    var selector = "#debtTable tbody tr td:nth-child({index})".replace('{index}', index);
+    var tds = $(selector);
+    var values = [];
+    for (var i = 0; i < tds.length; i++) {
+      var element = tds[i].children[0];
+      values[i] = parseFloat(element.value);
+    }
+    return values;
+  },
+
+  setColumn: function (index, values, precision) {
+    var selector = "#debtTable tbody tr td:nth-child({index}) output".replace('{index}', index);
+    var inputs = $(selector);
+    for (var i = 0; i < inputs.length; i++) {
+      inputs[i].value = values[i].toPrecision(precision);
+    }
+  },
+
+  createLabel: function () {
+    var $output = $('<output>', {
+      //"class": "form-control",
+    });
+    return $output;
+  },
+
+  createOutput: function () {
+    var $output = $('<output>', {
+      "class": "form-control",
+    });
+    return $output;
+  },
+
+  createInput: function () {
+    var $input = $('<input>', {
+      "type": "number",
+      "step": 0.1,
+      "class": "form-control",
+    });
+    $input.on('change', Debt.updateTable);
+    return $input;
+  },
+
+  createRow: function (index) {
+    var $row = $('<tr>');
+    $row.append([
+      $('<td>').append(this.createLabel().val(Baseline.year[index])),
+      $('<td>').append(this.createInput().val(Baseline.inflation[index])),
+      $('<td>').append(this.createInput().val(Baseline.realGrowth[index])),
+      $('<td>').append(this.createInput().val(Baseline.interest[index])),
+      $('<td>').append(this.createInput().val(Baseline.balance[index])),
+      $('<td>').append(this.createInput().val(Baseline.SFA[index])),
+      $('<td>').append(this.createOutput().val(Baseline.nominalGrowth[index])),
+      $('<td>').append(this.createOutput().val(Baseline.debt[index].toPrecision(4))),
+    ]);
+    return $row;
+  },
+
+  createTable: function () {
+    for (var i = 0; i < Baseline.debt.length; i++) {
+      $('#debtTable tbody').append(this.createRow(i));
+    }
+  },
+
+  init: function () {
+    this.createTable();
+  },
+
+};
+
 // Execute when ready!
 $(document).ready( function () {
   SingleParty.init();
   Table.init();
+  Debt.init();
+
+  // Resize the chart;
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+      var chart = $('#one_party_chart').highcharts();
+      chart.reflow();
+  });
 });
+
