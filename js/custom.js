@@ -30,11 +30,6 @@ var SingleParty = {
   outside_rate: $('#rate_outside_parliament'),
   necessary_rate: $('#necessary_rate'),
 
-  // Highcharts help functions
-  format_percentages: function() {
-    return Highcharts.numberFormat(this.y, 1) + '%';
-  },
-
   // Define Single Party Chart
   chart: $('#one_party_chart').highcharts({
     title: {
@@ -50,7 +45,7 @@ var SingleParty = {
         text: 'Ποσοστό κομμάτων εκτος βουλής (%)'
       },
       labels: {
-        formatter: this.format_percentages,
+        formatter: Utils.formatPercentages,
       },
       maxPadding: 0.05,
       showLastLabel: true,
@@ -67,14 +62,14 @@ var SingleParty = {
         color: '#808080'
       }],
       labels: {
-        formatter: this.format_percentages,
+        formatter: Utils.formatPercentages,
       },
       min: 30,
       max: 42.5
     },
     tooltip: {
       valueSuffix: ' %',
-      formatter: this.format_percentages,
+      formatter: Utils.formatPercentages,
     },
     series:
       [
