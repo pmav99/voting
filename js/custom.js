@@ -122,13 +122,75 @@ var SingleParty = {
 
 
 var Seats = {
+  chart: $('#pie_chart').highcharts({
+    title: {
+      text: 'Κατανομή Εδρών',
+      align: 'center',
+      verticalAlign: 'top',
+    },
+    tooltip: {
+      pointFormat: '<b>{point.y}</b> έδρες - <b>{point.percentage:.1f}%</b>'
+    },
+    plotOptions: {
+      pie: {
+        //showInLegend: true,
+        allowPointSelect: true,
+        dataLabels: {
+          enabled: true,
+          //borderWidth:10,
+          distance: 20,
+          format: '<b>{point.name}</b>: {point.y}',
+          style: {
+            fontWeight: 'bold',
+            //width: '120px'
+          }
+        },
+        //size: 0.5,
+        //innerSize: 0.1,
+        //minSize: 0.2,
+        //startAngle: -90,
+        //endAngle: 90,
+        //stickyTracking: true,
+        center: ['50%', '50%'],
+      }
+    },
+    series: [{
+      startAngle: -90,
+      type: 'pie',
+      name: 'Βουλευτικές Έδρες',
+      data: [ ],
+    }]
+  }),
+
+  updateChart: function () {
+    var parties = this.getColumn(2);
+    var seats = this.getColumn(4);
+    var data = [];
+    for (var i = 0; i < parties.length; i++) {
+      if (seats[i] > 0) {
+        data.push([parties[i], parseInt(seats[i])]);
+      }
+    }
+    $('#pie_chart').highcharts().series[0].setData(data);
+  },
+
+  getColumn: function (index) {
+    var selector = "#SeatsTable tbody tr td:nth-child({index})".replace('{index}', index);
+    var tds = $(selector);
+    var values = [];
+    for (var i = 0; i < tds.length; i++) {
+      var element = tds[i].children[0];
+      values[i] = element.value;
+    }
+    return values;
+  },
 
   parties: [
     "ΣΥΡΙΖΑ",
     "Νέα Δημοκρατία",
     "Το Ποτάμι",
     "ΚΚΕ",
-    "ΠΑΣΟΚ – ΔΗΜΟΚΡΑΤΙΚΗ ΠΑΡΑΤΑΞΗ",
+    "ΠΑΣΟΚ",
     "Χρυσή Αυγή",
     "Ανεξάρτητοι Έλληνες",
     "ΑΝΤΑΡΣΥΑ-ΜΑΡΣ",
@@ -242,6 +304,7 @@ var Seats = {
     var result = Seats.firstDistribution(percentages, outOfParliamentPercentage);
     var seats = Seats.secondDistribution(result.seats, result.remains);
     Seats.updateOutput(seats);
+    Seats.updateChart();
   },
 
   updateOutput: function (seats) {
@@ -334,7 +397,7 @@ var Seats = {
       ["ΚΚΕ", 5],
       ["Το Ποτάμι", 5],
       ["Χρυσή Αυγή", 5],
-      ["ΠΑΣΟΚ – ΔΗΜΟΚΡΑΤΙΚΗ ΠΑΡΑΤΑΞΗ", 5],
+      ["ΠΑΣΟΚ", 5],
       ["Ανεξάρτητοι Έλληνες", 3],
     ];
     // create the rows and assign the defaults.
