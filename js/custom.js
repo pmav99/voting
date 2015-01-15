@@ -126,7 +126,7 @@ var SingleParty = {
 };
 
 
-var Table = {
+var Seats = {
 
   parties: [
     "ΣΥΡΙΖΑ",
@@ -227,7 +227,7 @@ var Table = {
 
   calcDistribution: function () {
     // read input
-    var percentages = Table.getPartyPercentages();
+    var percentages = Seats.getPartyPercentages();
     // Check input sanity
     if (Utils.sum(percentages) > 100 ) {
       alert("Το συνολικό ποσοστό υπερβαίνει το 100%. Παρακαλώ ελέγξτε τα δεδομένα σας.");
@@ -244,9 +244,9 @@ var Table = {
     // Set the out of parliament percentage
     $('#outOfParliamentPercentage').val(outOfParliamentPercentage.toFixed(2));
     // Distribute the parliament seats.
-    var result = Table.firstDistribution(percentages, outOfParliamentPercentage);
-    var seats = Table.secondDistribution(result.seats, result.remains);
-    Table.updateOutput(seats);
+    var result = Seats.firstDistribution(percentages, outOfParliamentPercentage);
+    var seats = Seats.secondDistribution(result.seats, result.remains);
+    Seats.updateOutput(seats);
   },
 
   updateOutput: function (seats) {
@@ -258,7 +258,7 @@ var Table = {
 
   removeRow: function () {
     $(this).closest('tr').remove();
-    Table.calcDistribution();
+    Seats.calcDistribution();
   },
 
   createRemoveButton: function () {
@@ -267,7 +267,7 @@ var Table = {
       "aria-hidden": "true",
     });
     // bind callback
-    $button.on("click", Table.removeRow);
+    $button.on("click", Seats.removeRow);
     return $button;
   },
 
@@ -279,7 +279,7 @@ var Table = {
     });
 
     // Append options.
-    $(Table.parties).each(function() {
+    $(Seats.parties).each(function() {
         $select.append(
             $('<option>', {
                 "value": this
@@ -300,7 +300,7 @@ var Table = {
       "placeholder": "Ποσοστό (%)",
     });
     // bind callback
-    $input.on('change', Table.calcDistribution);
+    $input.on('change', Seats.calcDistribution);
     return $input;
   },
 
@@ -354,7 +354,7 @@ var Table = {
 
   bindUIActions: function() {
     $("#add_row_button").click(function () {
-      $("#myTable > tbody").append(Table.createRow());
+      $("#myTable > tbody").append(Seats.createRow());
     });
   },
 
@@ -533,7 +533,7 @@ var Debt = {
 // Execute when ready!
 $(document).ready( function () {
   SingleParty.init();
-  Table.init();
+  Seats.init();
   Debt.init();
 
   // Resize the charts;
