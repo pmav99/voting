@@ -218,7 +218,7 @@ var Seats = {
 
   getPartyPercentages: function () {
     var percentages = [];
-    var inputs = $("#myTable > tbody").find('input');
+    var inputs = $("#SeatsTable > tbody").find('input');
     for (var i = 0; i < inputs.length; i++) {
       percentages.push(parseFloat(inputs[i].value) || 0);
     }
@@ -250,7 +250,7 @@ var Seats = {
   },
 
   updateOutput: function (seats) {
-    var outputs = $("#myTable > tbody").find('output');
+    var outputs = $("#SeatsTable > tbody").find('output');
     for (var i = 0; i < seats.length; i++) {
       $(outputs[i]).text(seats[i]);
     }
@@ -325,7 +325,7 @@ var Seats = {
   },
 
   addRow: function () {
-    var $tbody = $("#myTable > tbody");
+    var $tbody = $("#SeatsTable > tbody");
     var $row = this.createRow();
     $tbody.append($row);
     return $row;
@@ -343,7 +343,7 @@ var Seats = {
       ["Ανεξάρτητοι Έλληνες", 3],
     ];
     // create the rows and assign the defaults.
-    var $tbody = $("#myTable > tbody");
+    var $tbody = $("#SeatsTable > tbody");
     for (var i = 0; i < defaults.length; i++) {
       var row = this.createRow();
       row.find("select").val(defaults[i][0]);
@@ -354,7 +354,7 @@ var Seats = {
 
   bindUIActions: function() {
     $("#add_row_button").click(function () {
-      $("#myTable > tbody").append(Seats.createRow());
+      $("#SeatsTable > tbody").append(Seats.createRow());
     });
   },
 
@@ -544,4 +544,3 @@ $(document).ready( function () {
       debtChart.reflow();
   });
 });
-
